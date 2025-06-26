@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Notes App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div style="display: flex; justify-content: flex-end; padding: 15px;">
+        <button id="toggleDarkMode" class="mode-toggle-btn">
+            Dark Mode
+        </button>
+    </div>
+
+    <header>
+        <h1>My Notes</h1>
+        <input type="text" class="search-input" placeholder="&#x1F50E;&#xFE0E; Search..."
+            style="margin-top: 10px; padding: 8px; width: 300px; border-radius: 5px; border: 1px solid #ccc;">
+
+
+    </header>
+
+    <div class="content">
+        <input type="text" placeholder="Note Title" class="note-title">
+        <textarea placeholder="Write your note here..." class="note-body"></textarea>
+        <button class="addbtn">Add Note</button>
+        <div id="errorMsg"></div>
+    </div>
+
+    <div class="notescontainer"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
