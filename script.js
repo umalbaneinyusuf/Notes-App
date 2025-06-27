@@ -1,3 +1,5 @@
+let notesArray = JSON.parse(localStorage.getItem("Notes")) || [];
+
 const toggleBtn = document.getElementById("toggleDarkMode");
 const body = document.body;
 
@@ -31,8 +33,7 @@ add.addEventListener("click", function () {
             pinned: false
         };
 
-        let notesArray = JSON.parse(localStorage.getItem("Notes")) || [];
-        notesArray.unshift(newnote); 
+        notesArray.unshift(newnote);
         localStorage.setItem("Notes", JSON.stringify(notesArray));
 
 
@@ -49,7 +50,7 @@ function renderNotes(filterKeyword = "") {
     let container = document.querySelector(".notescontainer");
     container.innerHTML = "";
 
-    let notesArray = JSON.parse(localStorage.getItem("Notes")) || [];
+    notesArray = JSON.parse(localStorage.getItem("Notes")) || [];
 
     notesArray.sort((a, b) => (b.pinned === true) - (a.pinned === true));
 
@@ -57,6 +58,7 @@ function renderNotes(filterKeyword = "") {
         if (noteObj.NoteTitle.toLowerCase().includes(filterKeyword.toLowerCase())) {
             let note = document.createElement("div");
             note.className = "notes";
+            note.style.position = "relative";
 
             let titleContainer = document.createElement("div");
             titleContainer.style.display = "flex";
@@ -81,6 +83,9 @@ function renderNotes(filterKeyword = "") {
 
             let menu = document.createElement("div");
             menu.style.position = "absolute";
+            menu.style.top = "35px"; 
+            menu.style.right = "10px"; 
+
             menu.style.background = "#fff";
             menu.style.border = "1px solid #ccc";
             menu.style.padding = "10px";
@@ -144,18 +149,14 @@ function renderNotes(filterKeyword = "") {
 
             menu.appendChild(editOption);
             menu.appendChild(pinOption);
-            document.body.appendChild(menu);
+            note.appendChild(menu);
             menuBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
 
                 document.querySelectorAll(".note-menu").forEach(m => {
                     m.style.display = "none";
                 });
-
                 menu.style.display = "block";
-                let rect = menuBtn.getBoundingClientRect();
-                menu.style.top = `${rect.bottom + window.scrollY}px`;
-                menu.style.left = `${rect.left + window.scrollX}px`;
             });
 
             document.addEventListener("click", () => {
@@ -172,7 +173,7 @@ function renderNotes(filterKeyword = "") {
             deletebtn.className = "delbtn";
             deletebtn.textContent = "Delete";
             deletebtn.addEventListener("click", function () {
-                let confirmDelete = confirm("Are you sure?");
+                let confirmDelete = confirm(`Are you sure you want to delete '${noteObj.NoteTitle}'?`);
                 if (confirmDelete) {
                     notesArray.splice(index, 1);
                     localStorage.setItem("Notes", JSON.stringify(notesArray));
@@ -193,15 +194,30 @@ function renderNotes(filterKeyword = "") {
         }
     });
 
+    let deleteBtn = document.querySelector(".deletebtn");
     if (notesArray.length === 0) {
         container.innerHTML = "<p style='text-align:center; color:#888;'>No Notes yet...</p>";
+        if (deleteBtn) deleteBtn.style.display = "none";
         return;
+    } else {
+        if (deleteBtn) deleteBtn.style.display = "grid";
     }
 }
 
 
 
 renderNotes();
+
+let deleteall = document.querySelector(".delete-btn");
+deleteall.addEventListener("click", function () {
+    let confirmDeleteAll = confirm("Are you sure You Want to Delete All Notes?");
+    if (confirmDeleteAll) {
+        localStorage.removeItem("Notes");
+        notesArray = [];
+        renderNotes();
+    }
+});
+
 document.querySelector(".search-input").addEventListener("input", function (e) {
     renderNotes(e.target.value);
 });

@@ -18,16 +18,18 @@ header {
     color: #444;
 }
 
-.content {
+.content, .deletebtn {
     display: grid;
     place-items: center;
-    gap: 5px;
+    gap: 10px;
     padding: 20px;
+    width: 100%;
 }
 
 .note-title,
 .note-body {
-    width: 300px;
+     width: 100%;
+    max-width: 400px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -65,15 +67,19 @@ header {
     background-color: #ffc445;
     text-transform: capitalize;
     font-size: 18px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .notes p {
     padding: 10px;
     margin: 0 10px 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .delbtn,
-.addbtn {
+.addbtn,.delete-btn {
     background-color: #ffc445;
     color: white;
     border: none;
@@ -85,7 +91,7 @@ header {
 }
 
 .delbtn:hover,
-.addbtn:hover {
+.addbtn:hover,.delete-btn:hover {
     background-color: #e6a600;
     transform: scale(1.05);
 }
@@ -125,13 +131,15 @@ body.dark .notes h1 {
 }
 
 body.dark .delbtn,
-body.dark .addbtn {
+body.dark .addbtn,
+body.dark .delete-btn {
     background-color: #333;
     color: #ffc445;
 }
 
 body.dark .delbtn:hover,
-body.dark .addbtn:hover {
+body.dark .addbtn:hover,
+body.dark .delete-btn:hover {
     background-color: #555;
 }
 
@@ -160,12 +168,39 @@ body.dark .note-menu {
 
 @media (max-width: 768px) {
     .notescontainer {
-        grid-template-columns: repeat(2, minmax(250px, 1fr));
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .note-title,
+    .note-body {
+        max-width: 90%;
     }
 }
 
 @media (max-width: 480px) {
     .notescontainer {
-        grid-template-columns: repeat(1, minmax(250px, 1fr));
+        grid-template-columns: repeat(1, 1fr);
+        padding: 10px;
+    }
+
+    .note-title,
+    .note-body {
+        max-width: 90%;
+    }
+
+    .delbtn,
+    .addbtn,
+    .delete-btn,
+    .mode-toggle-btn {
+        width: 90%;
+        font-size: 16px;
+    }
+
+    header {
+        font-size: large;
+        padding: 15px;
+        text-align: center;
     }
 }
