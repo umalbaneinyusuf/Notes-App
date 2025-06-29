@@ -179,7 +179,7 @@ body.dark .note-menu {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 340px) {
     .notescontainer {
         grid-template-columns: repeat(1, minmax(180px,1fr));
         padding: 10px;
